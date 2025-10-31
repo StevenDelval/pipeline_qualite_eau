@@ -1,0 +1,34 @@
+[project]
+name = "brief-qualite-eau"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
+
+
+
+[tool.semantic_release]
+version_source = "tag"
+branch = "main"
+
+[tool.semantic_release.branches.main]
+match = "main"                    # Nom de la branche à matcher
+prerelease = false                # false = versions stables (1.0.0, 1.1.0, 2.0.0)
+
+[tool.semantic_release.branches.develop]
+match = "develop"
+prerelease = true                 # active les pré-releases
+prerelease_token = "beta"         # suffixe: 1.2.0-beta.1
+
+[tool.semantic_release.commit_parser_options]
+# Types de commits autorisés
+allowed_tags = ["feat", "fix", "perf", "docs", "style", "refactor", "test", "chore", "ci", "build"]
+
+# Incrémentations automatiques
+major_tags = []                   # on se base sur "!" ou BREAKING CHANGE
+minor_tags = ["feat"]             # Commits qui déclenchent une version MINEURE (0.1.0 → 0.2.0)
+patch_tags = ["fix", "perf"]      # Commits qui déclenchent une version PATCH (0.1.0 → 0.1.1)
+
+# Détection automatique des ruptures de compatibilité
+breaking_change_indicators = ["BREAKING CHANGE", "BREAKING CHANGES", "!"]
