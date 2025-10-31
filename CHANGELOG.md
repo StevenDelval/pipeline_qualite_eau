@@ -2,6 +2,22 @@
 
 <!-- version list -->
 
+## v1.2.0-beta.2 (2025-10-31)
+
+### Features
+
+- Add transformations
+  ([`6139972`](https://github.com/StevenDelval/pipeline_qualite_eau/commit/6139972bb3770201809479551dfb5889a3b586a0))
+
+
+## v1.2.0-beta.1 (2025-10-31)
+
+### Features
+
+- Sstore data in bronze data tables(databricks) and a Parquet-formatted storage copy in the lake
+  ([`ccbcbe9`](https://github.com/StevenDelval/pipeline_qualite_eau/commit/ccbcbe968f1438af3a208b66a033ebf4c2ece86e))
+
+
 ## v1.1.0 (2025-10-31)
 
 
