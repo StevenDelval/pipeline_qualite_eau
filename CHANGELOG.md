@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v1.1.0-beta.2 (2025-10-31)
+
+### Features
+
+- Ingest data in datalake
+  ([`b94f360`](https://github.com/StevenDelval/pipeline_qualite_eau/commit/b94f36039c37d8fdb0e56a99a7602e056c81aa7f))
+
+
 ## v1.1.0-beta.1 (2025-10-31)
 
 ### Features
