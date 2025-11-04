@@ -23,3 +23,7 @@ variable "path_geojson" {
   type        = string
   description = "Path to the GeoJSON file for UDI geometry"
 }
+
+variable "users_notification" {
+  type    = list(string)
+}
