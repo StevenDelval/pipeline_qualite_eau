@@ -57,7 +57,7 @@ resource "databricks_job" "pipeline_qualite_eau" {
   task {
     task_key      = "ingest_datalake"
     notebook_task {
-      notebook_path = "/Repos/repo_git/qualite_eaux/01_ingest_data_in_lake"
+      notebook_path = "/Repos/repo_git/qualite_eaux/notebooks/01_ingest_data_in_lake"
     }
     email_notifications {
       on_failure = var.users_notification
@@ -67,7 +67,7 @@ resource "databricks_job" "pipeline_qualite_eau" {
   task {
     task_key      = "ingest_bronze"
     notebook_task {
-      notebook_path = "/Repos/repo_git/qualite_eaux/02_Ingestion_in_bronze"
+      notebook_path = "/Repos/repo_git/qualite_eaux/notebooks/02_Ingestion_in_bronze"
     }
     existing_cluster_id = databricks_cluster.cluster.id
     email_notifications {
@@ -80,7 +80,7 @@ resource "databricks_job" "pipeline_qualite_eau" {
   task {
     task_key      = "transform_silver"
     notebook_task {
-      notebook_path = "/Repos/repo_git/qualite_eaux/03_transfom_data_in_silver"
+      notebook_path = "/Repos/repo_git/qualite_eaux/notebooks/03_transfom_data_in_silver"
     }
     existing_cluster_id = databricks_cluster.cluster.id
     email_notifications {
