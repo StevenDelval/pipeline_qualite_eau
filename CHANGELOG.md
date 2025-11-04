@@ -2,6 +2,22 @@
 
 <!-- version list -->
 
+## v1.3.0-beta.1 (2025-11-04)
+
+### Features
+
+- Create logs filessystem
+  ([`c54ee12`](https://github.com/StevenDelval/pipeline_qualite_eau/commit/c54ee1293849ca1a3c000f8260f5e39c18be05de))
+
+- Download only if not exist or is last year
+  ([`fe851c4`](https://github.com/StevenDelval/pipeline_qualite_eau/commit/fe851c471b00233a693e811820292e3c92ba6dc0))
+
+### Refactoring
+
+- Change logging config to store in datalake
+  ([`7e177dc`](https://github.com/StevenDelval/pipeline_qualite_eau/commit/7e177dc8f80f5be5b0d4ceab592e7fc4adce7ba6))
+
+
 ## v1.2.0 (2025-10-31)
 
 
