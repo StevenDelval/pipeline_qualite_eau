@@ -24,6 +24,11 @@ resource "azurerm_storage_data_lake_gen2_filesystem" "data_lake_filesystem" {
   storage_account_id = azurerm_storage_account.data_lake.id
 }
 
+resource "azurerm_storage_data_lake_gen2_filesystem" "data_lake_filesystem_geometrie" {
+  name               = "donnees-qualite-eau-geometrie"
+  storage_account_id = azurerm_storage_account.data_lake.id
+}
+
 resource "azurerm_storage_data_lake_gen2_filesystem" "data_lake_filesystem_bronze" {
   name               = "donnees-qualite-eau-bronze"
   storage_account_id = azurerm_storage_account.data_lake.id
@@ -37,4 +42,12 @@ resource "azurerm_storage_data_lake_gen2_filesystem" "data_lake_filesystem_silve
 resource "azurerm_storage_data_lake_gen2_filesystem" "data_lake_filesystem_gold" {
   name               = "donnees-qualite-eau-gold"
   storage_account_id = azurerm_storage_account.data_lake.id
+}
+
+resource "azurerm_storage_blob" "geojson_file" {
+  name                   = "geometry_udi.json"  
+  storage_account_name   = azurerm_storage_account.data_lake.name
+  storage_container_name = azurerm_storage_data_lake_gen2_filesystem.data_lake_filesystem_geometrie.name
+  type                   = "Block"
+  source                 = var.path_geojson
 }

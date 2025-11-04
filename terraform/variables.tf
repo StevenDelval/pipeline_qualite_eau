@@ -18,3 +18,8 @@ variable "git_repo_url" {
   type        = string
   description = "URL of the Git repository containing Databricks notebooks"
 }
+
+variable "path_geojson" {
+  type        = string
+  description = "Path to the GeoJSON file for UDI geometry"
+}
