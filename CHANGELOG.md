@@ -2,6 +2,19 @@
 
 <!-- version list -->
 
+## v1.3.0-beta.2 (2025-11-04)
+
+### Bug Fixes
+
+- Adls_folder_exists correction of the ADLS file existence check
+  ([`f6911f2`](https://github.com/StevenDelval/pipeline_qualite_eau/commit/f6911f25da3c4959103e656f1106e9979a065502))
+
+### Documentation
+
+- Change docsting
+  ([`3754132`](https://github.com/StevenDelval/pipeline_qualite_eau/commit/3754132e2d2f07778fcda7edb8cfe92fb4bd82a1))
+
+
 ## v1.3.0-beta.1 (2025-11-04)
 
 ### Features
