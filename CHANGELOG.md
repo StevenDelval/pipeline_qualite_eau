@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v1.3.0-beta.6 (2025-11-04)
+
+### Bug Fixes
+
+- Correct path
+  ([`3aee473`](https://github.com/StevenDelval/pipeline_qualite_eau/commit/3aee473393d69b98cbf0768f3789cfee913367b5))
+
+
 ## v1.3.0-beta.5 (2025-11-04)
 
 
