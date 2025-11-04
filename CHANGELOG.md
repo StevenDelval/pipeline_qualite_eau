@@ -2,6 +2,20 @@
 
 <!-- version list -->
 
+## v1.3.0-beta.4 (2025-11-04)
+
+### Features
+
+- Create job on databricks
+  ([`c0c1d98`](https://github.com/StevenDelval/pipeline_qualite_eau/commit/c0c1d98bfab041ddb29d09cf55b9720870858656))
+
+- Make a storage account for tfstate
+  ([`dfa43be`](https://github.com/StevenDelval/pipeline_qualite_eau/commit/dfa43bebdc8e7ed093c0b2da19b76c2f30e9e918))
+
+- Migrate backend
+  ([`9ac9d52`](https://github.com/StevenDelval/pipeline_qualite_eau/commit/9ac9d52007c80472473cc44c0d78f305bbab3cf1))
+
+
 ## v1.3.0-beta.3 (2025-11-04)
 
 ### Chores
