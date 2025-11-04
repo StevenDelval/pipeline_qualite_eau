@@ -14,6 +14,11 @@ resource "azurerm_storage_account" "data_lake" {
   is_hns_enabled           = true
 }
 
+resource "azurerm_storage_data_lake_gen2_filesystem" "data_lake_filesystem_logs" {
+  name               = "logs"
+  storage_account_id = azurerm_storage_account.data_lake.id
+}
+
 resource "azurerm_storage_data_lake_gen2_filesystem" "data_lake_filesystem" {
   name               = "donnees-qualite-eau"
   storage_account_id = azurerm_storage_account.data_lake.id
