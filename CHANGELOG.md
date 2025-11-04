@@ -2,6 +2,19 @@
 
 <!-- version list -->
 
+## v1.3.0-beta.3 (2025-11-04)
+
+### Chores
+
+- Update gitignore
+  ([`3eab25d`](https://github.com/StevenDelval/pipeline_qualite_eau/commit/3eab25d1aa1bafcb560c0bf5101a736b161b8404))
+
+### Features
+
+- Upload geoJSON
+  ([`d6b9aaf`](https://github.com/StevenDelval/pipeline_qualite_eau/commit/d6b9aafa1793e197276729c25226bb8ce4320b5b))
+
+
 ## v1.3.0-beta.2 (2025-11-04)
 
 ### Bug Fixes
