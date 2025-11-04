@@ -10,6 +10,13 @@ terraform {
       version = "~> 1.50.0"
     }
   }
+
+  backend "azurerm" {
+    resource_group_name  = "RG_DELVAL_Qualite_eaux_tfstate"
+    storage_account_name = "qetfstatestorage"
+    container_name       = "tfstate"
+    key                  = "terraform.tfstate"
+  }
 }
 
 provider "azurerm" {
