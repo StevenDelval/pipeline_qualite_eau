@@ -50,3 +50,35 @@ resource "databricks_repo" "git_repo" {
   path   = "/Repos/repo_git/qualite_eaux"
   branch = "develop"
 }
+
+resource "databricks_job" "pipeline_qualite_eau" {
+  name = "Pipeline_Qualite_Eau"
+
+  task {
+    task_key      = "ingest_datalake"
+    notebook_task {
+      notebook_path = "/Repos/repo_git/qualite_eaux/01_ingest_data_in_lake"
+    }
+    existing_cluster_id = databricks_cluster.cluster.id
+  }
+  task {
+    task_key      = "ingest_bronze"
+    notebook_task {
+      notebook_path = "/Repos/repo_git/qualite_eaux/02_Ingestion_in_bronze"
+    }
+    existing_cluster_id = databricks_cluster.cluster.id
+    depends_on {
+      task_key = "ingest_datalake"
+    }
+  }
+  task {
+    task_key      = "transform_silver"
+    notebook_task {
+      notebook_path = "/Repos/repo_git/qualite_eaux/03_transfom_data_in_silver"
+    }
+    existing_cluster_id = databricks_cluster.cluster.id
+    depends_on {
+      task_key = "ingest_bronze"
+    }
+  }
+}
