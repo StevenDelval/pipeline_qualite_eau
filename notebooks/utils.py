@@ -37,11 +37,14 @@ class DataLakeLogHandler(logging.Handler):
         """
         try:
             msg = self.format(record) + "\n"
-            data = io.BytesIO(msg.encode("utf-8"))
+            data_bytes = msg.encode("utf-8")
+            data = io.BytesIO(data_bytes)
+
             props = self.file_client.get_file_properties()
             offset = props.size
-            self.file_client.append_data(data=data, offset=offset, length=len(msg))
-            self.file_client.flush_data(offset + len(msg))
+
+            self.file_client.append_data(data=data, offset=offset, length=len(data_bytes))
+            self.file_client.flush_data(offset + len(data_bytes))
         except Exception as e:
             print(f"Erreur d’envoi du log : {e}")
 
