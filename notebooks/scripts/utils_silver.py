@@ -229,7 +229,28 @@ def transform_plv_silver(df: DataFrame) -> DataFrame:
     return df
 
 
-def transform_result_silver(df):
+def transform_result_silver(df: DataFrame) -> DataFrame:
+    """
+    Transforme le DataFrame Resultats Bronze en DataFrame Silver avec déduplication sur l'année.
+
+    Cette fonction effectue les opérations suivantes :
+    1. Renomme les colonnes pour correspondre au schéma Silver.
+    2. Ajoute un timestamp `updated_at` pour savoir quand la ligne a été transformée.
+    3. Convertit les valeurs "O"/"N" de la colonne `is_qualitatif` en booléen True/False.
+    4. Déduplique les lignes en conservant uniquement la ligne la plus récente selon `annee`
+       pour chaque combinaison (cd_dept, reference_prel, cd_parametre).
+    5. Sélectionne uniquement les colonnes finales pertinentes pour la table Silver.
+
+    Args:
+        df (DataFrame): DataFrame Spark Bronze contenant les résultats bruts.
+
+    Returns:
+        DataFrame: DataFrame Spark Silver transformé, prêt à être inséré dans la table Delta.
+    """
+
+    
+    # Renommer les colonnes pour le schéma Silver
+    
     df = (
         df
         .withColumnRenamed("cddept", "cd_dept")
@@ -249,24 +270,35 @@ def transform_result_silver(df):
         .withColumnRenamed("casparam", "cd_cas_param")
         .withColumnRenamed("referenceanl", "cd_ana_labo")
     )
-    # Convertir et enrichissement
-    df = (
-        df
-        .withColumn("updated_at", F.current_timestamp())
-    )
-     # Transformer les O/N en True/False
+
+    
+    # Ajouter un timestamp d'update
+    
+    df = df.withColumn("updated_at", F.current_timestamp())
+
+    
+    # Transformer "O"/"N" en True/False
+    
     df = df.withColumn(
         "is_qualitatif",
         F.when(F.upper(F.col("is_qualitatif")) == "O", F.lit(True))
          .when(F.upper(F.col("is_qualitatif")) == "N", F.lit(False))
          .otherwise(F.lit(None))
     )
-    # Garder la ligne avec l'année la plus récente pour chaque cd_reseau
-    df = (
-        df
-        .dropDuplicates(["cd_dept","reference_prel","cd_parametre"])
-    )
-    # Liste des colonnes finales à garder
+
+    
+    # Déduplication par année la plus récente
+    
+    window_spec = Window.partitionBy("cd_dept", "reference_prel", "cd_parametre") \
+                        .orderBy(F.col("annee").desc())
+
+    df = df.withColumn("row_number", F.row_number().over(window_spec)) \
+           .filter(F.col("row_number") == 1) \
+           .drop("row_number")
+
+    
+    # Sélection des colonnes finales pour Silver
+    
     colonnes_a_garder = [
         "cd_dept",
         "reference_prel",
@@ -288,6 +320,6 @@ def transform_result_silver(df):
         "annee"
     ]
 
-    # Garder uniquement ces colonnes (drop tout le reste automatiquement)
     df = df.select([c for c in colonnes_a_garder if c in df.columns])
+
     return df
