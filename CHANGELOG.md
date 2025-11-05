@@ -2,6 +2,25 @@
 
 <!-- version list -->
 
+## v1.3.0-beta.7 (2025-11-05)
+
+### Bug Fixes
+
+- Correct DataLake handler for UTF-8 messages with accents
+  ([`23e83de`](https://github.com/StevenDelval/pipeline_qualite_eau/commit/23e83de1307f225fca4c3f15c0da58c781657f6e))
+
+### Refactoring
+
+- Create a script folder for reuse function
+  ([`49b19f2`](https://github.com/StevenDelval/pipeline_qualite_eau/commit/49b19f27359483b1d827989c465d0cd16fd51c80))
+
+- Use env vars
+  ([`c42f79a`](https://github.com/StevenDelval/pipeline_qualite_eau/commit/c42f79aa1c904dfe8003b645bfa23102669b98b8))
+
+- Use scripts file for functions
+  ([`4e5600d`](https://github.com/StevenDelval/pipeline_qualite_eau/commit/4e5600d10c3f9378c053c13daafe4eed5b5c89b4))
+
+
 ## v1.3.0-beta.6 (2025-11-04)
 
 ### Bug Fixes
