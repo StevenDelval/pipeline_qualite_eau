@@ -38,13 +38,18 @@ def upsert_table(
     # Vérifie si la table existe déjà
     if not spark.catalog.tableExists(table_name):
         logger.info(f"Création de la table Delta : {table_name}")
-        (
+
+        writer = (
             df_silver.write.format("delta")
             .mode("overwrite")
             .option("overwriteSchema", "true")
-            .partitionBy(*partition_cols)
-            .saveAsTable(table_name)
         )
+
+        if partition_cols:
+            writer = writer.partitionBy(*partition_cols)
+
+        writer.saveAsTable(table_name)
+        logger.info(f"Création de la table Delta : {table_name} terminée")
         return
 
     # Si la table existe, on fait un MERGE Delta
@@ -103,7 +108,7 @@ def transform_com_silver(df: DataFrame) -> DataFrame:
         .withColumn("quartier", F.lower(F.col("quartier")))      # mettre en minuscules
         .withColumn("debut_alim", F.to_date("debut_alim", "yyyy-MM-dd"))  # convertir en date
     )
-
+    df = df.withColumn("annee", F.col("annee").cast("int"))
     # Déduplication par groupe avec priorité sur l'année la plus récente
    
     window_spec = Window.partitionBy(
@@ -182,6 +187,7 @@ def transform_plv_silver(df: DataFrame) -> DataFrame:
         .withColumn("date_prel", F.to_date("date_prel", "yyyy-MM-dd"))  # Convertir en date Spark
         .withColumn("updated_at", F.current_timestamp())               # Timestamp d'update
     )
+    df = df.withColumn("annee", F.col("annee").cast("int"))
     # Filtrer les lignes avec des clés critiques manquantes
     
     df = df.filter(F.col("cd_reseau").isNotNull() & F.col("reference_prel").isNotNull())
@@ -258,9 +264,8 @@ def transform_result_silver(df: DataFrame) -> DataFrame:
         .withColumnRenamed("cdparametresiseeaux", "cd_parametre_sise_eaux")
         .withColumnRenamed("cdparametre", "cd_parametre")
         .withColumnRenamed("libminparametre", "lib_parametre")
-        .withColumnRenamed("libwebparametre", "lib_parametre_gp")
         .withColumnRenamed("qualitparam", "is_qualitatif")
-        .withColumnRenamed("insituana", "insitu_analyse")
+        .withColumnRenamed("insituana", "is_labo")
         .withColumnRenamed("rqana", "resultat_analyse")
         .withColumnRenamed("cdunitereferencesiseeaux", "cd_unite_reference_sise_eaux")
         .withColumnRenamed("cdunitereference", "cd_unite_reference")
@@ -285,8 +290,45 @@ def transform_result_silver(df: DataFrame) -> DataFrame:
          .when(F.upper(F.col("is_qualitatif")) == "N", F.lit(False))
          .otherwise(F.lit(None))
     )
-
+    # Transformer "L"/"T" en True/False
     
+    df = df.withColumn(
+        "is_labo",
+        F.when(F.upper(F.col("is_labo")) == "L", F.lit(True))
+         .when(F.upper(F.col("is_labo")) == "T", F.lit(False))
+         .otherwise(F.lit(None))
+    )
+
+    # Nettoyage colonne ref_qualite
+    ## Nettoyage de base 
+    df = df.withColumn("ref_qualite", F.trim(F.lower(F.col("ref_qualite"))))
+    df = df.withColumn("ref_qualite", F.regexp_replace("ref_qualite", ",", "."))
+    ## Extraction des valeurs
+    df = df.withColumn("min_val_ref", F.regexp_extract(F.col("ref_qualite"), r">=\s*([\d\.]+)", 1))
+    df = df.withColumn("max_val_ref", F.regexp_extract(F.col("ref_qualite"), r"<=\s*([\d\.]+)", 1))
+    ## Nettoyage et normalisation
+    df = df.withColumn("min_val_ref", F.when(F.col("min_val_ref") != "", F.col("min_val_ref").cast("double")))
+    df = df.withColumn("max_val_ref", F.when(F.col("max_val_ref") != "", F.col("max_val_ref").cast("double")))
+
+    # Nettoyage colonne limite_qualite
+    ## Nettoyage de base 
+    df = df.withColumn("limite_qualite", F.trim(F.lower(F.col("limite_qualite"))))
+    df = df.withColumn("limite_qualite", F.regexp_replace("limite_qualite", ",", "."))
+     ## Extraction des valeurs
+    df = df.withColumn("valeur_limite", F.regexp_extract(F.col("limite_qualite"), r"<=\s*([\d\.]+)", 1))
+    ## Nettoyage et normalisation
+    df = df.withColumn("valeur_limite", F.when(F.col("valeur_limite") != "", F.col("valeur_limite").cast("double")))
+
+    # Nettoyage valeur resultat
+    df = df.withColumn("cd_unite_reference_sise_eaux", F.trim(F.lower(F.col("cd_unite_reference_sise_eaux"))))
+
+    df = df.withColumn(
+        "val_finale",
+        when(F.col("cd_unite_reference_sise_eaux") == "sans objet", F.col("resultat_analyse"))
+        .otherwise(F.col("val_traduite"))
+    )
+
+
     # Déduplication par année la plus récente
     
     window_spec = Window.partitionBy("cd_dept", "reference_prel", "cd_parametre") \
@@ -305,15 +347,16 @@ def transform_result_silver(df: DataFrame) -> DataFrame:
         "cd_parametre_sise_eaux",
         "cd_parametre",
         "lib_parametre",
-        "lib_parametre_gp",
         "is_qualitatif",
-        "insitu_analyse",
+        "is_labo",
         "resultat_analyse",
         "cd_unite_reference_sise_eaux",
         "cd_unite_reference",
-        "limite_qualite",
-        "ref_qualite",
+        "min_val_ref",
+        "max_val_ref",
+        "valeur_limite",
         "val_traduite",
+        "val_finale",
         "cd_cas_param",
         "cd_ana_labo",
         "updated_at",
