@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v1.3.0-beta.16 (2025-11-06)
+
+### Bug Fixes
+
+- Remove uselles cols in update condition
+  ([`056d63b`](https://github.com/StevenDelval/pipeline_qualite_eau/commit/056d63b0f131faeda2fc89e2b53967f6ddd85fe1))
+
+
 ## v1.3.0-beta.15 (2025-11-06)
 
 ### Features
