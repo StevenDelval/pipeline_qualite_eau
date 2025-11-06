@@ -338,8 +338,8 @@ def transform_result_silver(df: DataFrame) -> DataFrame:
 
     # Déduplication par année la plus récente
     
-    window_spec = Window.partitionBy("cd_dept", "reference_prel", "cd_parametre") \
-                        .orderBy(F.col("annee").desc())
+    window_spec = Window.partitionBy("cd_dept", "reference_prel", "annee", "cd_parametre") \
+                    .orderBy(F.col("updated_at").desc_nulls_last())
 
     df = df.withColumn("row_number", F.row_number().over(window_spec)) \
            .filter(F.col("row_number") == 1) \
