@@ -326,8 +326,8 @@ def transform_result_silver(df: DataFrame) -> DataFrame:
     df = df.withColumn(
         "val_quantitatif",
         F.when((F.col("is_qualitatif") == False), F.col("val_traduite"))
-        .otherwise(None)
-    ).cast("double")
+        .otherwise(None).cast("double")
+    )
     # Création de val_qualitatif : si qualitatif 
     df = df.withColumn(
         "val_qualitatif",
