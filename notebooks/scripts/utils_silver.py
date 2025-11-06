@@ -280,7 +280,7 @@ def transform_result_silver(df: DataFrame) -> DataFrame:
     # Ajouter un timestamp d'update
     
     df = df.withColumn("updated_at", F.current_timestamp())
-
+    df = df.withColumn("annee", F.col("annee").cast("int"))
     
     # Transformer "O"/"N" en True/False
     
@@ -319,13 +319,20 @@ def transform_result_silver(df: DataFrame) -> DataFrame:
     ## Nettoyage et normalisation
     df = df.withColumn("valeur_limite", F.when(F.col("valeur_limite") != "", F.col("valeur_limite").cast("double")))
 
-    # Nettoyage valeur resultat
+    # Nettoyage cd_unite_reference_sise_eaux
     df = df.withColumn("cd_unite_reference_sise_eaux", F.trim(F.lower(F.col("cd_unite_reference_sise_eaux"))))
 
+    # Création de val_quantitatif : uniquement si ce n'est pas qualitatif
     df = df.withColumn(
-        "val_finale",
-        F.when(F.col("cd_unite_reference_sise_eaux") == "sans objet", F.col("resultat_analyse"))
-        .otherwise(F.col("val_traduite"))
+        "val_quantitatif",
+        F.when((F.col("is_qualitatif") == False), F.col("val_traduite"))
+        .otherwise(None)
+    ).cast("double")
+    # Création de val_qualitatif : si qualitatif 
+    df = df.withColumn(
+        "val_qualitatif",
+        F.when((F.col("is_qualitatif") == True) , F.col("resultat_analyse"))
+        .otherwise(None)
     )
 
 
@@ -349,14 +356,13 @@ def transform_result_silver(df: DataFrame) -> DataFrame:
         "lib_parametre",
         "is_qualitatif",
         "is_labo",
-        "resultat_analyse",
         "cd_unite_reference_sise_eaux",
         "cd_unite_reference",
         "min_val_ref",
         "max_val_ref",
         "valeur_limite",
-        "val_traduite",
-        "val_finale",
+        "val_quantitatif",
+        "val_qualitatif",
         "cd_cas_param",
         "cd_ana_labo",
         "updated_at",
