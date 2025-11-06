@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v1.3.0-beta.10 (2025-11-06)
+
+### Bug Fixes
+
+- Error pattition columns
+  ([`065c8a5`](https://github.com/StevenDelval/pipeline_qualite_eau/commit/065c8a5b4d070d88926b4795d0c58eadc63fdbd3))
+
+
 ## v1.3.0-beta.9 (2025-11-06)
 
 
