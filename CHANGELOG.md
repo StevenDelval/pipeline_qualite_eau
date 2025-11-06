@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v1.3.0-beta.15 (2025-11-06)
+
+### Features
+
+- Add looging message before and after transformation
+  ([`2cf647d`](https://github.com/StevenDelval/pipeline_qualite_eau/commit/2cf647d755fd5e93b0d86529b1cc35ed3d0d610f))
+
+
 ## v1.3.0-beta.14 (2025-11-06)
 
 
