@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v1.3.0-beta.11 (2025-11-06)
+
+### Bug Fixes
+
+- Add missing F.
+  ([`cbc5409`](https://github.com/StevenDelval/pipeline_qualite_eau/commit/cbc54094ec310b744aaae72c8faccece8a8f02d0))
+
+
 ## v1.3.0-beta.10 (2025-11-06)
 
 ### Bug Fixes
