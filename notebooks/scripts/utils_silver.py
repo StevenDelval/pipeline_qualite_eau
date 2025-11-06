@@ -324,7 +324,7 @@ def transform_result_silver(df: DataFrame) -> DataFrame:
 
     df = df.withColumn(
         "val_finale",
-        when(F.col("cd_unite_reference_sise_eaux") == "sans objet", F.col("resultat_analyse"))
+        F.when(F.col("cd_unite_reference_sise_eaux") == "sans objet", F.col("resultat_analyse"))
         .otherwise(F.col("val_traduite"))
     )
 
