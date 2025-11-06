@@ -2,6 +2,17 @@
 
 <!-- version list -->
 
+## v1.3.0-beta.12 (2025-11-06)
+
+### Features
+
+- Add columns in update conditions
+  ([`584b588`](https://github.com/StevenDelval/pipeline_qualite_eau/commit/584b58893fc60bd480b0bb0675344f215479324c))
+
+- Add val_quantitatif and val_qualitatif columns
+  ([`c2b5a05`](https://github.com/StevenDelval/pipeline_qualite_eau/commit/c2b5a05c2037f1d380484083a52967596f0e629b))
+
+
 ## v1.3.0-beta.11 (2025-11-06)
 
 ### Bug Fixes
