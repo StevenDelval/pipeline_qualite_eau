@@ -2,6 +2,22 @@
 
 <!-- version list -->
 
+## v1.3.0-beta.8 (2025-11-06)
+
+### Features
+
+- Add new transfomation
+  ([`79b7282`](https://github.com/StevenDelval/pipeline_qualite_eau/commit/79b72827696a26bcac693da93e01197e3e2dbce0))
+
+### Refactoring
+
+- Createutils_silver for utils functions
+  ([`925b184`](https://github.com/StevenDelval/pipeline_qualite_eau/commit/925b1842a975caffc3b9ed94bcdc54e037bd4cd4))
+
+- Modify transformation table dis_result
+  ([`3686105`](https://github.com/StevenDelval/pipeline_qualite_eau/commit/36861054ad076b5f75c5bb8725a87a28b22707ef))
+
+
 ## v1.3.0-beta.7 (2025-11-05)
 
 ### Bug Fixes
