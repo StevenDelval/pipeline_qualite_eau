@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v1.3.0-beta.18 (2025-11-06)
+
+### Features
+
+- Make first dim tables
+  ([`a1c3a4f`](https://github.com/StevenDelval/pipeline_qualite_eau/commit/a1c3a4f0365454d61c7d38fa9c0899b6f39a3ab0))
+
+
 ## v1.3.0-beta.17 (2025-11-06)
 
 
