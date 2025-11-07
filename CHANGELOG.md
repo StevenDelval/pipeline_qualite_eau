@@ -2,6 +2,19 @@
 
 <!-- version list -->
 
+## v1.3.0-beta.19 (2025-11-07)
+
+### Features
+
+- Add logging message
+  ([`dee8ea8`](https://github.com/StevenDelval/pipeline_qualite_eau/commit/dee8ea8244a867f07c77fde9398191f5c88f5018))
+
+### Refactoring
+
+- Rename dim_parametre_info to dim_parametre_info
+  ([`9e71b87`](https://github.com/StevenDelval/pipeline_qualite_eau/commit/9e71b87a2a5246652465a6705ce156599bbd688b))
+
+
 ## v1.3.0-beta.18 (2025-11-06)
 
 ### Features
